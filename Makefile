@@ -2431,10 +2431,14 @@ export WEBPACK_REVEAL_INDEX_JS
 # Rules
 # ------------------------------------------------------------------------------  
 
-aws-check-env-default:  # https://stackoverflow.com/a/4731504/185820
+aws-check-env-default: aws-check-env-profile aws-check-env-region
+
+aws-check-env-profile-default:
 ifndef AWS_PROFILE
 	$(error AWS_PROFILE is undefined)
 endif
+
+aws-check-env-region-default:
 ifndef AWS_REGION
 	$(error AWS_REGION is undefined)
 endif
@@ -2445,6 +2449,12 @@ aws-secret-default: aws-check-env
 
 aws-sg-default: aws-check-env
 	aws ec2 describe-security-groups $(AWS_OPTS)
+
+aws-vol-default: aws-check-env
+	aws ec2 describe-volumes --output table
+
+aws-vol-available-default: aws-check-env
+	aws ec2 describe-volumes --filters Name=status,Values=available --query "Volumes[*].{ID:VolumeId,Size:Size}" --output table
 
 aws-ssm-default: aws-check-env
 	aws ssm describe-parameters $(AWS_OPTS)
@@ -2532,11 +2542,14 @@ eb-pg-export-default:
 eb-restart-default:
 	eb ssh -c "systemctl restart web"
 
-eb-upgrade-default:
+eb-rebuild-default:
+	aws elasticbeanstalk rebuild-environment --environment-name $(ENV_NAME)
+
+eb-upgrade-default: aws-check-env-profile
 	eb upgrade
 
-eb-init-default:
-	eb init
+eb-init-default: aws-check-env-profile
+	eb init --profile=$(AWS_PROFILE)
 
 eb-list-platforms-default:
 	aws elasticbeanstalk list-platform-versions

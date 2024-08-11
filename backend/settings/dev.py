@@ -4,7 +4,7 @@ from .base import *
 DEBUG = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-aaxypzm1k-b&z)*vudm5ll!eiwa*hg2susn%3c5gg235#a@6wy"
+SECRET_KEY = "django-insecure-5^_1(ajp%h2kys9e4!4#0e7ep8i1o2t)apby-xz(vy1!ma-dil"
 
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = ["*"]
@@ -16,7 +16,6 @@ try:
     from .local import *
 except ImportError:
     pass
-INSTALLED_APPS.append('debug_toolbar')
 INSTALLED_APPS.append('explorer')
 INSTALLED_APPS.append('django.contrib.admindocs')
 MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')

@@ -3,12 +3,11 @@
 from django.contrib import admin
 from .models import Payment
 
-
 @admin.register(Payment)
-class PaymentAdmin(admin.ModelAdmin):
-    list_display = ("id", "amount", "stripe_charge_id", "timestamp")
-    search_fields = ("stripe_charge_id",)
-    list_filter = ("timestamp",)
+class PaymentsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'amount', 'stripe_charge_id', 'timestamp')
+    search_fields = ('stripe_charge_id',)
+    list_filter = ('timestamp',)
 
     # readonly_fields = ('amount', 'stripe_charge_id', 'timestamp')
 

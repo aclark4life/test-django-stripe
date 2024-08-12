@@ -1,10 +1,10 @@
-# urls.py
-
 from django.urls import path
-from django.views.generic import TemplateView
-from .views import PaymentsView
+from .views import CheckoutView, SuccessView, CancelView, ProductListView, ProductDetailView
 
 urlpatterns = [
-    path('', PaymentsView.as_view(), name='payments'),
-    path('success/', TemplateView.as_view(template_name='payments_success.html'), name='payments_success'),
+    path('', ProductListView.as_view(), name='product_list'),
+    path('product/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
+    path('checkout/', CheckoutView.as_view(), name='checkout'),
+    path('success/', SuccessView.as_view(), name='success'),
+    path('cancel/', CancelView.as_view(), name='cancel'),
 ]

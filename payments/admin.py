@@ -1,18 +1,5 @@
-# admin.py
-
 from django.contrib import admin
-from .models import Payment
+from .models import Product, Order
 
-@admin.register(Payment)
-class PaymentsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'amount', 'stripe_charge_id', 'timestamp')
-    search_fields = ('stripe_charge_id',)
-    list_filter = ('timestamp',)
-
-    # readonly_fields = ('amount', 'stripe_charge_id', 'timestamp')
-
-    # def has_add_permission(self, request):
-    #     return False
-
-    # def has_delete_permission(self, request, obj=None):
-    #     return False
+admin.site.register(Product)
+admin.site.register(Order)

@@ -18,6 +18,7 @@ const UserMenu = ({ isAuthenticated, isSuperuser, textColor }) => {
             <li><a className="dropdown-item" href="/user/profile/">Profile</a></li>
             <li><a className="dropdown-item" href="/model-form-demo/">Model Form Demo</a></li>
             <li><a className="dropdown-item" href="/logging-demo/">Logging Demo</a></li>
+            <li><a className="dropdown-item" href="/payments/">Payments Demo</a></li>
             {isSuperuser ? (
               <>
                 <li><hr className="dropdown-divider"></hr></li>

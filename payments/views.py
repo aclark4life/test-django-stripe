@@ -1,44 +1,54 @@
-# views.py
-
-import stripe
 from django.conf import settings
-from django.shortcuts import render, redirect
-from django.views import View
-from .forms import PaymentsForm
-from .models import Payment
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import TemplateView, View, ListView, DetailView
+import stripe
+from .models import Product, Order
 
-class PaymentsView(View):
-    def get(self, request):
-        # Set the amount you want to charge
-        amount = 50.00  # for example, 0.00
-        form = PaymentsForm(initial={'amount': amount})
-        return render(request, 'payments.html', {'form': form, 'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY})
+stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 
-    def post(self, request):
-        form = PaymentsForm(request.POST)
-        if form.is_valid():
-            stripe.api_key = settings.STRIPE_SECRET_KEY
-            token = form.cleaned_data['stripeToken']
-            amount = int(form.cleaned_data['amount'] * 100)  # Stripe uses cents
+class ProductListView(ListView):
+    model = Product
+    template_name = 'payments/product_list.html'
+    context_object_name = 'products'
 
-            try:
-                charge = stripe.Charge.create(
-                    amount=amount,
-                    currency='usd',
-                    description='Example charge',
-                    source=token,
-                )
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'payments/product_detail.html'
+    context_object_name = 'product'
 
-                # Save the payments in the database
-                payments = Payments.objects.create(
-                    amount=form.cleaned_data['amount'],
-                    stripe_charge_id=charge.id
-                )
+class CheckoutView(View):
+    template_name = 'payments/checkout.html'
 
-                return redirect('payments_success')  # Redirect to a success page
+    def get(self, request, *args, **kwargs):
+        products = Product.objects.all()
+        return render(request, self.template_name, {'products': products})
 
-            except stripe.error.StripeError as e:
-                # Handle error
-                return render(request, 'payments.html', {'form': form, 'error': str(e), 'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY})
+    def post(self, request, *args, **kwargs):
+        product_id = request.POST.get('product_id')
+        product = get_object_or_404(Product, id=product_id)
+        
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': product.name,
+                    },
+                    'unit_amount': int(product.price * 100),
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url='http://localhost:8000/payments/success/',
+            cancel_url='http://localhost:8000/payments/cancel/',
+        )
 
-        return render(request, 'payments.html', {'form': form, 'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY})
+        Order.objects.create(product=product, stripe_checkout_session_id=session.id)
+        return redirect(session.url, code=303)
+
+class SuccessView(TemplateView):
+    template_name = 'payments/success.html'
+
+class CancelView(TemplateView):
+    template_name = 'payments/cancel.html'

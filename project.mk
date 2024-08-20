@@ -2,3 +2,5 @@
 # Add your custom makefile commands here
 #
 # PROJECT_NAME := my-new-project
+#
+# all: $(PROJECT_NAME)

@@ -24,8 +24,14 @@ def get_ec2_metadata():
         print(f"Error retrieving EC2 metadata: {e}")
         return None
 
+
 # Function to remove a specific URL pattern based on its route (including catch-all)
 def remove_urlpattern(urlpatterns, route_to_remove):
-    urlpatterns[:] = [urlpattern for urlpattern in urlpatterns if not (
-        isinstance(urlpattern, URLResolver) and urlpattern.pattern._route == route_to_remove
-    )]
+    urlpatterns[:] = [
+        urlpattern
+        for urlpattern in urlpatterns
+        if not (
+            isinstance(urlpattern, URLResolver)
+            and urlpattern.pattern._route == route_to_remove
+        )
+    ]

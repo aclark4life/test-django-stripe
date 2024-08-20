@@ -4558,8 +4558,20 @@ gitignore-default: git-ignore
 .PHONY: h-default
 h-default: help
 
+.PHONY: init-default
+init-default: django-init-wagtail django-serve
+
+.PHONY: init-wagtail-default
+init-wagtail-default: django-init-wagtail
+
 .PHONY: l-default
 l-default: makefile-list-commands
+
+.PHONY: last-default
+last-default: git-commit-message-last git-push
+
+.PHONY: lint-default
+lint-default: django-lint
 
 .PHONY: list-commands-default
 list-commands-default: makefile-list-commands
@@ -4572,15 +4584,6 @@ list-exports-default: makefile-list-exports
 
 .PHONY: list-targets-default
 list-targets-default: makefile-list-targets
-
-.PHONY: init-default
-init-default: django-init-wagtail django-serve
-
-.PHONY: last-default
-last-default: git-commit-message-last git-push
-
-.PHONY: lint-default
-lint-default: django-lint
 
 .PHONY: migrate-default
 migrate-default: django-migrate
@@ -4615,8 +4618,11 @@ sort-default: git-commit-message-sort git-push
 .PHONY: su-default
 su-default: django-su
 
+.PHONY: test-default
+test-default: django-test
+
 .PHONY: t-default
-t-default: makefile-list-targets
+t-default: django-test
 
 .PHONY: u-default
 u-default: help

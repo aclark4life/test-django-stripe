@@ -764,6 +764,11 @@ define DJANGO_MANAGE_PY
 import os
 import sys
 
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
 
 def main():
     """Run administrative tasks."""
@@ -3699,6 +3704,7 @@ django-install-default: pip-ensure
 	python-docx \
 	reportlab \
 	texttable \
+	python-dotenv \
 	wheel
 
 .PHONY: django-install-minimal-default
@@ -3715,7 +3721,8 @@ django-install-minimal-default: pip-ensure
 	django-recaptcha \
 	djangorestframework \
 	django-sql-explorer \
-	psycopg2-binary
+	psycopg2-binary \
+	python-dotenv
 
 .PHONY: django-lint-default
 django-lint-default:

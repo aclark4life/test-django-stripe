@@ -27,7 +27,7 @@ urlpatterns += [path("accounts/", include("allauth.urls"))]
 urlpatterns += [path("user/", include("siteuser.urls"))]
 urlpatterns += [path("model-form-demo/", include("model_form_demo.urls"))]
 urlpatterns += [path("logging-demo/", include("logging_demo.urls"))]
-
+urlpatterns += [path("payments/", include("payments.urls"))]
 from rest_framework import routers  # noqa
 from .api import UserViewSet, api  # noqa
 

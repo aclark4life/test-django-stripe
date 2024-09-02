@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="ModelFormDemo",
+            name="UnitTestDemoModel",
             fields=[
                 (
                     "id",
@@ -22,11 +22,8 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("name", models.CharField(blank=True, max_length=100, null=True)),
-                ("email", models.EmailField(blank=True, max_length=254, null=True)),
-                ("age", models.IntegerField(blank=True, null=True)),
-                ("is_active", models.BooleanField(default=True)),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("field1", models.CharField(max_length=100)),
+                ("field2", models.CharField(max_length=100)),
             ],
         ),
     ]

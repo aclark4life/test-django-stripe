@@ -210,6 +210,10 @@ WEBPACK_LOADER = {
 }
 STATICFILES_DIRS.append(os.path.join(BASE_DIR, "frontend/build"))
 TEMPLATES[0]["DIRS"].append(os.path.join(PROJECT_DIR, "templates"))
+THEMES = [
+    ("light", "Light Theme"),
+    ("dark", "Dark Theme"),
+]
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
@@ -221,11 +225,7 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
     ]
 }
-THEMES = [
-    ("light", "Light Theme"),
-    ("dark", "Dark Theme"),
-]
-DATABASE_URL = os.environ.get("DATABASE_URL", "postgres://:@:/project-makefile")
+DATABASE_URL = os.environ.get("DATABASE_URL", "postgres://:@:/project_makefile")
 DATABASES["default"] = dj_database_url.parse(DATABASE_URL)
 INSTALLED_APPS.append("allauth")
 INSTALLED_APPS.append("allauth.account")
@@ -257,6 +257,7 @@ TEMPLATES[0]["OPTIONS"]["context_processors"].append(
 INSTALLED_APPS.append("siteuser")  # noqa
 AUTH_USER_MODEL = "siteuser.User"
 INSTALLED_APPS.append("model_form_demo")  # noqa
+INSTALLED_APPS.append("unit_test_demo")  # noqa
 INSTALLED_APPS.append("logging_demo")  # noqa
 DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
 DJSTRIPE_WEBHOOK_VALIDATION = "retrieve_event"
@@ -265,3 +266,6 @@ STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
 STRIPE_TEST_SECRET_KEY = os.environ.get("STRIPE_TEST_SECRET_KEY")
 INSTALLED_APPS.append("payments")  # noqa
 INSTALLED_APPS.append("djstripe")  # noqa
+INSTALLED_APPS.append("contactpage")  # noqa
+INSTALLED_APPS.append("privacypage")  # noqa
+INSTALLED_APPS.append("sitepage")  # noqa

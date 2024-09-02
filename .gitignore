@@ -6,4 +6,5 @@ _build/
 .elasticbeanstalk/
 db.sqlite3
 static/
+backend/inituser
 backend/var
